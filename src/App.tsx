@@ -1,26 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Counter from './Counter'
 
-function App() {
+// propsで親コンポーネントから渡ってきたものに型をつけるときは外に出してinterfaceで定義する
+interface AppProps {
+  message?: string,
+}
+const App: React.FunctionComponent<AppProps> = ({ message }) => {
+  // javascriptの分割代入を使っている。
+  // コンポーネントに渡されたプロパティ（props）から、messageだけを取り出しています。
+  // これにより、props.messageと書く代わりに、直接messageという変数を使用できます。
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Counter />
     </div>
   );
+}
+
+App.defaultProps = {
+  message: 'Hello, defaultProps!',
 }
 
 export default App;
