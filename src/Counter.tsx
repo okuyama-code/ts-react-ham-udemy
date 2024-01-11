@@ -1,5 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
+// const array: Array<number> = [1,2,3]
+// const readonlyarray: ReadonlyArray<number> = [1,2,3]
+// array[0] = 11;
+// readonlyarray[0] = 11;
 
 // React.FunctionComponent はReact.FCでオッケー
 // const Counter: React.FunctionComponent<{}> = () => {
@@ -18,11 +22,39 @@ const Counter: React.FC<{}> = () => {
     }
   }
 
+  const renderTimes = useRef<number>(0);
+
+  useEffect(() => {
+    console.log("render was done")
+    renderTimes.current = renderTimes.current + 1;
+  }, [value])
+
+  // nullの後ろに!をつける。この！のことをノンnullアサーションオペレーターという
+  const ref = useRef<HTMLInputElement>(null!);
+
+  const focusInput = () => {
+    // ref.currentでinputを参照できる
+    // const current = ref.current
+    // if (current != null) {
+    //   current.focus();
+    // }
+    // if (current != null) current.focus();
+
+    // ref.currentが呼べる時だけ呼ぶための簡単な書き方.
+    // nullの時は実行しないようになる。?
+    // ref.current?.focus();
+    ref.current.focus();
+
+  }
+
   return (
     <div>
       <div>value: {value}</div>
       <button onClick={increment}>+1</button>
       <button onClick={decrement}>-1</button>
+      <div>This component was re-render { renderTimes.current} times!</div>
+      <input ref={ref} type="text" />
+      <button onClick={focusInput}>Click Me!</button>
     </div>
   )
 }
